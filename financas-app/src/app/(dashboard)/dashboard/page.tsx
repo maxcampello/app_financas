@@ -60,8 +60,8 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-          <p className="text-sm text-slate-500">Visão geral das suas finanças</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Dashboard</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Visão geral das suas finanças</p>
         </div>
         <MonthSelector
           month={month}
@@ -76,7 +76,7 @@ export default function DashboardPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-28 bg-white rounded-xl animate-pulse" />
+            <div key={i} className="h-28 bg-white dark:bg-slate-800 rounded-xl animate-pulse" />
           ))}
         </div>
       ) : (
@@ -86,8 +86,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {loading ? (
           <>
-            <div className="h-80 bg-white rounded-xl animate-pulse" />
-            <div className="h-80 bg-white rounded-xl animate-pulse" />
+            <div className="h-80 bg-white dark:bg-slate-800 rounded-xl animate-pulse" />
+            <div className="h-80 bg-white dark:bg-slate-800 rounded-xl animate-pulse" />
           </>
         ) : (
           <>
@@ -99,7 +99,7 @@ export default function DashboardPage() {
 
       <div>
         {loading ? (
-          <div className="h-64 bg-white rounded-xl animate-pulse" />
+          <div className="h-64 bg-white dark:bg-slate-800 rounded-xl animate-pulse" />
         ) : (
           <RecentTransactions transactions={transactions} />
         )}

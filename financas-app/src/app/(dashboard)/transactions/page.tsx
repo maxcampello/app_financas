@@ -40,8 +40,8 @@ export default function TransactionsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Transações</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Transações</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             {loading ? '...' : `${transactions.length} transação(ões) encontrada(s)`}
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function TransactionsPage() {
           {loading ? (
             <div className="space-y-4 py-4">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="h-12 bg-slate-100 rounded-lg animate-pulse" />
+                <div key={i} className="h-12 bg-slate-100 dark:bg-slate-800 rounded-lg animate-pulse" />
               ))}
             </div>
           ) : (

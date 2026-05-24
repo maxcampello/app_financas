@@ -35,7 +35,7 @@ export function MonthSelector({ month, year, onChange }: MonthSelectorProps) {
       <Button variant="outline" size="icon" className="h-8 w-8" onClick={prev}>
         <ChevronLeft className="h-4 w-4" />
       </Button>
-      <span className="text-sm font-medium text-slate-700 min-w-[120px] text-center capitalize">
+      <span className="text-sm font-medium text-slate-700 dark:text-slate-300 min-w-[120px] text-center capitalize">
         {format(date, 'MMMM yyyy', { locale: ptBR })}
       </span>
       <Button

@@ -18,9 +18,9 @@ export function ExpenseChart({ data }: ExpenseChartProps) {
     return (
       <Card className="border-0 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm font-medium text-slate-600">Despesas por Categoria</CardTitle>
+          <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400">Despesas por Categoria</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-48 text-slate-400 text-sm">
+        <CardContent className="flex items-center justify-center h-48 text-slate-400 dark:text-slate-500 text-sm">
           Nenhuma despesa registrada
         </CardContent>
       </Card>
@@ -36,7 +36,7 @@ export function ExpenseChart({ data }: ExpenseChartProps) {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-slate-600">Despesas por Categoria</CardTitle>
+        <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400">Despesas por Categoria</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={280}>
@@ -57,7 +57,7 @@ export function ExpenseChart({ data }: ExpenseChartProps) {
             <Tooltip formatter={(value) => formatCurrency(Number(value))} />
             <Legend
               formatter={(value) => (
-                <span className="text-xs text-slate-600">{value}</span>
+                <span className="text-xs text-slate-600 dark:text-slate-400">{value}</span>
               )}
             />
           </PieChart>

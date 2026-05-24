@@ -54,7 +54,7 @@ export function TransactionList({ transactions, onRefresh }: TransactionListProp
 
   return (
     <>
-      <div className="divide-y divide-slate-100">
+      <div className="divide-y divide-slate-100 dark:divide-slate-800">
         {transactions.map((t) => (
           <div key={t.id} className="flex items-center justify-between py-4 gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -64,7 +64,7 @@ export function TransactionList({ transactions, onRefresh }: TransactionListProp
                 }`}
               />
               <div className="min-w-0">
-                <p className="text-sm font-medium text-slate-800 truncate">{t.description}</p>
+                <p className="text-sm font-medium text-slate-800 dark:text-slate-100 truncate">{t.description}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-xs text-slate-400">
                     {format(new Date(t.date + 'T12:00:00'), 'dd/MM/yyyy', { locale: ptBR })}

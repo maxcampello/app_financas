@@ -19,11 +19,11 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-slate-600">Últimas Transações</CardTitle>
+        <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400">Últimas Transações</CardTitle>
       </CardHeader>
       <CardContent>
         {recent.length === 0 ? (
-          <p className="text-sm text-slate-400 text-center py-8">Nenhuma transação registrada</p>
+          <p className="text-sm text-slate-400 dark:text-slate-500 text-center py-8">Nenhuma transação registrada</p>
         ) : (
           <div className="space-y-3">
             {recent.map((t) => (
@@ -33,9 +33,9 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
                     t.type === 'income' ? 'bg-green-500' : 'bg-red-500'
                   }`} />
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{t.description}</p>
+                    <p className="text-sm font-medium text-slate-800 dark:text-slate-100 truncate">{t.description}</p>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-slate-400 dark:text-slate-500">
                         {format(new Date(t.date + 'T12:00:00'), 'dd MMM', { locale: ptBR })}
                       </span>
                       <Badge variant="secondary" className="text-xs px-1.5 py-0">
@@ -45,7 +45,7 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
                   </div>
                 </div>
                 <span className={`text-sm font-semibold flex-shrink-0 ml-4 ${
-                  t.type === 'income' ? 'text-green-600' : 'text-red-600'
+                  t.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                 }`}>
                   {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount)}
                 </span>
