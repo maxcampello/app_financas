@@ -14,7 +14,11 @@ function formatCurrency(value: number) {
 }
 
 export function RecentTransactions({ transactions }: RecentTransactionsProps) {
-  const recent = transactions.slice(0, 5)
+  // Ordena por data decrescente antes de fatiar para garantir que as 5 mais recentes
+  // sejam exibidas mesmo que a lista chegue em ordem diferente
+  const recent = [...transactions]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 5)
 
   return (
     <Card className="border-0 shadow-sm">

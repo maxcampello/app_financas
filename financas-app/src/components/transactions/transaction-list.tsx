@@ -36,10 +36,13 @@ export function TransactionList({ transactions, onRefresh }: TransactionListProp
     setDeleteLoading(true)
     try {
       await deleteTransaction(deleting.id)
-      onRefresh()
-    } finally {
-      setDeleteLoading(false)
+      // Fecha o modal antes de disparar o refresh para evitar
+      // que a lista tente renderizar a transação excluída enquanto o dialog ainda está montado
       setDeleting(null)
+      setDeleteLoading(false)
+      onRefresh()
+    } catch {
+      setDeleteLoading(false)
     }
   }
 
@@ -66,7 +69,7 @@ export function TransactionList({ transactions, onRefresh }: TransactionListProp
               <div className="min-w-0">
                 <p className="text-sm font-medium text-slate-800 dark:text-slate-100 truncate">{t.description}</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-slate-400 dark:text-slate-500">
                     {format(new Date(t.date + 'T12:00:00'), 'dd/MM/yyyy', { locale: ptBR })}
                   </span>
                   <Badge variant="secondary" className="text-xs px-1.5 py-0">
@@ -79,7 +82,9 @@ export function TransactionList({ transactions, onRefresh }: TransactionListProp
             <div className="flex items-center gap-3 flex-shrink-0">
               <span
                 className={`text-sm font-semibold ${
-                  t.type === 'income' ? 'text-green-600' : 'text-red-600'
+                  t.type === 'income'
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-red-600 dark:text-red-400'
                 }`}
               >
                 {t.type === 'income' ? '+' : '-'}

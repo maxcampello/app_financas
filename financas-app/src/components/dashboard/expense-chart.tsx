@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CATEGORY_LABELS, CATEGORY_COLORS } from '@/types'
 import type { CategoryTotal } from '@/types'
+import { useTheme } from 'next-themes'
 
 interface ExpenseChartProps {
   data: CategoryTotal[]
@@ -14,6 +15,16 @@ function formatCurrency(value: number) {
 }
 
 export function ExpenseChart({ data }: ExpenseChartProps) {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  const tooltipStyle = {
+    backgroundColor: isDark ? '#1e293b' : '#ffffff',
+    border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
+    borderRadius: '8px',
+    color: isDark ? '#f1f5f9' : '#0f172a',
+  }
+
   if (data.length === 0) {
     return (
       <Card className="border-0 shadow-sm">
@@ -54,7 +65,11 @@ export function ExpenseChart({ data }: ExpenseChartProps) {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+            <Tooltip
+              formatter={(value) => formatCurrency(Number(value))}
+              contentStyle={tooltipStyle}
+              itemStyle={{ color: isDark ? '#f1f5f9' : '#0f172a' }}
+            />
             <Legend
               formatter={(value) => (
                 <span className="text-xs text-slate-600 dark:text-slate-400">{value}</span>

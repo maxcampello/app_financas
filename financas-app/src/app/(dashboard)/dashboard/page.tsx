@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import { SummaryCards } from '@/components/dashboard/summary-cards'
 import { ExpenseChart } from '@/components/dashboard/expense-chart'
 import { IncomeChart } from '@/components/dashboard/income-chart'
@@ -36,21 +36,16 @@ export default function DashboardPage() {
   const [month, setMonth] = useState(now.getMonth() + 1)
   const [year, setYear] = useState(now.getFullYear())
   const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [loading, setLoading] = useState(true)
-
-  const load = useCallback(async () => {
-    setLoading(true)
-    try {
-      const data = await getTransactions({ month, year })
-      setTransactions(data)
-    } finally {
-      setLoading(false)
-    }
-  }, [month, year])
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
-    load()
-  }, [load])
+    startTransition(async () => {
+      const data = await getTransactions({ month, year })
+      setTransactions(data)
+    })
+  }, [month, year])
+
+  const loading = isPending
 
   const summary = computeSummary(transactions)
   const expenseTotals = computeCategoryTotals(transactions, 'expense')

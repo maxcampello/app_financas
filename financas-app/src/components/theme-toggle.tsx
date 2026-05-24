@@ -1,19 +1,29 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
 
-  useEffect(() => setMounted(true), [])
+  // resolvedTheme é undefined antes da hidratação. Renderiza placeholder com mesmas
+  // dimensões para evitar layout shift, sem precisar de useEffect + setState.
+  if (!resolvedTheme) {
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        disabled
+        aria-hidden
+        className="h-8 w-8 text-slate-500 dark:text-slate-400"
+      >
+        <Moon className="h-4 w-4 opacity-0" />
+      </Button>
+    )
+  }
 
-  if (!mounted) return null
-
-  const isDark = theme === 'dark'
+  const isDark = resolvedTheme === 'dark'
 
   return (
     <Button

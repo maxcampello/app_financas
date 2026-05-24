@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
@@ -48,8 +48,8 @@ export function TransactionForm({ transaction, onSuccess, onCancel }: Transactio
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -62,7 +62,9 @@ export function TransactionForm({ transaction, onSuccess, onCancel }: Transactio
     },
   })
 
-  const selectedType = watch('type')
+  // useWatch é compatível com React Compiler, ao contrário de watch()
+  const selectedType = useWatch({ control, name: 'type' })
+  const selectedCategory = useWatch({ control, name: 'category' })
   const categories = selectedType === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
 
   async function onSubmit(data: FormData) {
@@ -101,7 +103,7 @@ export function TransactionForm({ transaction, onSuccess, onCancel }: Transactio
             className={`py-2 px-4 rounded-lg text-sm font-medium border transition-colors ${
               selectedType === 'income'
                 ? 'bg-green-600 text-white border-green-600'
-                : 'bg-white text-slate-600 border-slate-200 hover:border-green-300'
+                : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-green-300 dark:hover:border-green-700'
             }`}
           >
             Receita
@@ -112,7 +114,7 @@ export function TransactionForm({ transaction, onSuccess, onCancel }: Transactio
             className={`py-2 px-4 rounded-lg text-sm font-medium border transition-colors ${
               selectedType === 'expense'
                 ? 'bg-red-600 text-white border-red-600'
-                : 'bg-white text-slate-600 border-slate-200 hover:border-red-300'
+                : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-red-300 dark:hover:border-red-700'
             }`}
           >
             Despesa
@@ -156,8 +158,9 @@ export function TransactionForm({ transaction, onSuccess, onCancel }: Transactio
       <div className="space-y-2">
         <Label>Categoria</Label>
         <Select
-          defaultValue={transaction?.category}
-          onValueChange={(v: unknown) => setValue('category', v as string)}
+          key={selectedType}
+          value={selectedCategory || ''}
+          onValueChange={(v: unknown) => setValue('category', v as string, { shouldValidate: true })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Selecione..." />
@@ -175,7 +178,7 @@ export function TransactionForm({ transaction, onSuccess, onCancel }: Transactio
         )}
       </div>
 
-      {error && <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-md">{error}</p>}
+      {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950/50 px-3 py-2 rounded-md">{error}</p>}
 
       <div className="flex gap-3 pt-2">
         <Button type="button" variant="outline" className="flex-1" onClick={onCancel}>

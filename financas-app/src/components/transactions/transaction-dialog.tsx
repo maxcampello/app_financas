@@ -36,6 +36,7 @@ export function TransactionDialog({
           </DialogTitle>
         </DialogHeader>
         <TransactionForm
+          key={transaction?.id ?? 'new'}
           transaction={transaction}
           onSuccess={handleSuccess}
           onCancel={() => onOpenChange(false)}

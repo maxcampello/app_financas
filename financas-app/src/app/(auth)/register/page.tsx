@@ -10,7 +10,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { TrendingUp, Loader2, MailCheck } from 'lucide-react'
 
 export default function RegisterPage() {
-  const supabase = createClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -34,6 +33,7 @@ export default function RegisterPage() {
 
     setLoading(true)
 
+    const supabase = createClient()
     const { error } = await supabase.auth.signUp({ email, password })
 
     if (error) {

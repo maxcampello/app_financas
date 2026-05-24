@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -14,7 +14,7 @@ export default function TransactionsPage() {
   const now = new Date()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [loading, setLoading] = useState(true)
+  const [isPending, startTransition] = useTransition()
   const [filters, setFilters] = useState<TransactionFilters>({
     month: now.getMonth() + 1,
     year: now.getFullYear(),
@@ -22,19 +22,22 @@ export default function TransactionsPage() {
     category: 'all',
   })
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    try {
+  useEffect(() => {
+    startTransition(async () => {
       const data = await getTransactions(filters)
       setTransactions(data)
-    } finally {
-      setLoading(false)
-    }
+    })
   }, [filters])
 
-  useEffect(() => {
-    load()
-  }, [load])
+  // Função exposta para onRefresh após criar/editar/excluir transações
+  function load() {
+    startTransition(async () => {
+      const data = await getTransactions(filters)
+      setTransactions(data)
+    })
+  }
+
+  const loading = isPending
 
   return (
     <div className="space-y-6">
